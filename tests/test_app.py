@@ -27,7 +27,19 @@ def test_add_vote(app):
         'vote_hash': 'hash',
     })
     assert resp.json == {'status': 'ok'}
-    assert Vote.objects.filter(ballot_id='123').exists()
+    vote = Vote.objects.get(ballot_id='123')
+    assert len(vote.log_id) == 40
+
+    # Post vote second time
+    resp = app.post_json('/add-vote/', {
+        'ballot_id': '124',
+        'encrypted_vote': 'enc',
+        'timestamp': '2016-01-01 00:00:01',
+        'vote_hash': 'hash2',
+    })
+    assert resp.json == {'status': 'ok'}
+    vote = Vote.objects.get(ballot_id='124')
+    assert len(vote.log_id) == 40
 
 
 def test_all_votes(app):

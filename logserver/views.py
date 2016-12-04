@@ -4,6 +4,7 @@ from django.http import JsonResponse
 
 from logserver.forms import VoteForm
 from logserver.models import Vote
+from logserver.services import get_log_id
 
 
 def add_vote(request):
@@ -14,7 +15,9 @@ def add_vote(request):
             return JsonResponse({'errors': 'Only application/json requests are accepted.'})
         form = VoteForm(data)
         if form.is_valid():
-            form.save()
+            vote = form.save(commit=False)
+            vote.log_id = get_log_id()
+            vote.save()
             return JsonResponse({'status': 'ok'})
         else:
             return JsonResponse({'errors': form.errors})

@@ -2,12 +2,14 @@ import json
 import datetime
 
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from logserver.forms import VoteForm
 from logserver.models import Vote
 from logserver.services import get_log_id
 
 
+@csrf_exempt
 def add_vote(request):
     if request.method == "POST":
         if request.content_type == 'application/json':

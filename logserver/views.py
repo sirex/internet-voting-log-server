@@ -35,4 +35,4 @@ def all_votes(request):
         'timestamp': x.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
         'encrypted_vote': x.encrypted_vote,
         'vote_hash': x.vote_hash,
-    }) for x in Vote.objects.order_by('timestamp')]))
+    }) for x in Vote.objects.order_by('timestamp')]), content_type='text/plain; charset=utf-8')

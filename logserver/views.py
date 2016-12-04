@@ -1,7 +1,7 @@
 import json
 import datetime
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from logserver.forms import VoteForm
@@ -30,9 +30,9 @@ def add_vote(request):
 
 
 def all_votes(request):
-    return JsonResponse({'votes': [{
+    return HttpResponse('\n'.join([json.dumps({
         'ballot_id': x.ballot_id,
         'timestamp': x.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
         'encrypted_vote': x.encrypted_vote,
         'vote_hash': x.vote_hash,
-    } for x in Vote.objects.order_by('timestamp')]})
+    }) for x in Vote.objects.order_by('timestamp')]))

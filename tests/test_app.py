@@ -1,3 +1,4 @@
+import json
 import datetime
 
 from logserver.models import Vote
@@ -46,11 +47,9 @@ def test_all_votes(app):
         encrypted_vote='enc',
         vote_hash='hash',
     )
-    assert app.get('/').json == {
-        'votes': [{
-            'ballot_id': '123',
-            'encrypted_vote': 'enc',
-            'timestamp': '2016-01-01 00:00:00',
-            'vote_hash': 'hash',
-        }],
+    assert json.loads(app.get('/').text) == {
+        'ballot_id': '123',
+        'encrypted_vote': 'enc',
+        'timestamp': '2016-01-01 00:00:00',
+        'vote_hash': 'hash',
     }

@@ -1,4 +1,5 @@
 import json
+import datetime
 
 from django.http import JsonResponse
 
@@ -16,6 +17,7 @@ def add_vote(request):
         form = VoteForm(data)
         if form.is_valid():
             vote = form.save(commit=False)
+            vote.timestamp = datetime.datetime.now()
             vote.log_id = get_log_id()
             vote.save()
             return JsonResponse({'status': 'ok'})

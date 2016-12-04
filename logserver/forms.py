@@ -8,4 +8,4 @@ class VoteForm(forms.ModelForm):
 
     class Meta:
         model = Vote
-        fields = ['ballot_id', 'timestamp', 'encrypted_vote', 'vote_hash']
+        fields = ['ballot_id', 'encrypted_vote', 'vote_hash']
